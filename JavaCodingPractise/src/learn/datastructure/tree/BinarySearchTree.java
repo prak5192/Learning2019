@@ -1,21 +1,8 @@
 package learn.datastructure.tree;
 
 class BinarySearchTree 
-{ 
-    /* Class containing left and right child of current node and key value*/
-    class Node 
-    { 
-        int key; 
-        Node left, right; 
-  
-        public Node(int item) 
-        { 
-            key = item; 
-            left = right = null; 
-        } 
-    } 
-  
-    // Root of BST 
+{   
+	// Root of BST 
     Node root; 
   
     // Constructor 
@@ -31,7 +18,7 @@ class BinarySearchTree
     } 
   
     /* A recursive function to insert a new key in BST */
-    Node deleteRec(Node root, int key) 
+    public Node deleteRec(Node root, int key) 
     { 
         /* Base Case: If the tree is empty */
         if (root == null){
@@ -72,7 +59,7 @@ class BinarySearchTree
         return root; 
     } 
   
-    int minValue(Node root) 
+    public int minValue(Node root) 
     { 
         int minv = root.key; 
         while (root.left != null) 
@@ -84,13 +71,13 @@ class BinarySearchTree
     } 
   
     // This method mainly calls insertRec() 
-    void insert(int key) 
+    public void insert(int key) 
     { 
         root = insertRec(root, key); 
     } 
   
     /* A recursive function to insert a new key in BST */
-    Node insertRec(Node root, int key) 
+    public Node insertRec(Node root, int key) 
     { 
   
         /* If the tree is empty, return a new node */
@@ -111,13 +98,13 @@ class BinarySearchTree
     } 
   
     // This method mainly calls InorderRec() 
-    void inorder() 
+    public void inorder() 
     { 
         inorderRec(root); 
     } 
   
     // A utility function to do inorder traversal of BST 
-    void inorderRec(Node root) 
+    public void inorderRec(Node root) 
     { 
         if (root != null) 
         { 
