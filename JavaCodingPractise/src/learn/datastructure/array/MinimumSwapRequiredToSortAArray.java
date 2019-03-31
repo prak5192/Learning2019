@@ -33,8 +33,8 @@ public class MinimumSwapRequiredToSortAArray {
 	
 	public static void main(String [] args){
 		MinimumSwapRequiredToSortAArray obj = new MinimumSwapRequiredToSortAArray();
-		int[] myIntArray = new int[]{4, 3, 2, 1};
-		System.out.println("Minimum Count: " + obj.minSwaps(myIntArray, 4));
+		//int[] myIntArray = new int[]{4, 3, 2, 1};
+		//System.out.println("Minimum Count: " + obj.minSwaps(myIntArray, 4));
 		
 		int[] secondattempt = new int[]{6, 4, 8, 7, 20, 18, 19};
 		System.out.println("Minimum Count: " + obj.minSwaps(secondattempt, secondattempt.length));
