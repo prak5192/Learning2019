@@ -1,0 +1,46 @@
+Q. What is REST? What is a RESTful Web Service?
+Ans: REST stands for Representational State Transfer. REST is an architectural 
+style, which is used to develop services using HTTP or HTTPS protocol.
+In REST, Java object state is converted into XML/JSON representation and transfered 
+between client and server. Thats why it is called representational state transfer.
+
+Operation:     HTTP Method
+============================
+C -> Create -> POST
+R -> Read   -> GET
+U -> Update -> PUT
+D -> Delete -> Delete 
+
+Technology used for implementation of REST
+1. Jersey
+2. Spring implimentation of REST.
+===================================================================================
+
+Q. What is the architectural style for creating web API?
+Ans: The architechral style of creating web api are:
+    -HTTP/HTTPS for client server communication
+    -XML/JSON as formating language
+    -Simple URI as the adress for services
+    -Sateless communication
+    
+===================================================================================
+
+Q. What tools are used for testing REST webservices?
+Ans: 1. SOAPUI 2. PostMan 3. Poster (firefox plugin)
+
+===================================================================================
+
+Q. Mention what are the HTTP methods supported by REST?
+Ans: HTTPs method supported by rest are:
+1. POST: Its submits information to the server for processing. It should probably 
+         returns the modified for new resource.
+2. GET: It request a resource at request URL. It should not contain a request body as it will be discarded.
+3. PUT: At the request URL, it update the request.
+4. DELETE: At request URL, it removes the reaource.
+5. OPTIONS: It indicates which techniques are supported.
+6. HEAD: About the request URl it returns meta information.
+
+===================================================================================
+
+
+
