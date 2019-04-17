@@ -1,0 +1,50 @@
+Q. What is SQL?
+Ans:
+SQL is a domain-specific programming language that allows you to query and 
+manipulate data within database management systems arranged in an optimized 
+manner and categorization.
+
+===============================================================================
+
+Q.What is the difference between a Database and a Relational Database?
+Ans: 
+Database or Database Management System(DBMS) and Relational Database Management 
+System(DBMS) are both used by SQL to store data and structures. However, each 
+type of Database Management System is preferred with respect to different uses. 
+
+The main difference between the two is that DBMS saves your information as files 
+whereas RDMS saves your information in tabular form. Also, as the keyword Relational 
+implies, RDMS allows different tables to have relationships with one another using 
+Primary Keys, Foreign Keys etc. This creates a dynamic chain of hierarchy between 
+tables which also offers helpful restriction on the tables.
+
+DBMS sorts out its tables through a hierarchal manner or navigational manner. 
+This is useful when it comes to storing data in tables that are independent of one 
+another and you don’t wish to change other tables while a table is being filled or edited.
+
+===============================================================================
+Q. Define SELECT, INSERT, CREATE, DELETE, UPDATE, DROP keywords
+Ans: 
+1. SELECT keyword is used to highlight and get entries in rows from tables or views. 
+It can also be accompanied by AS keyword to provide an alias. To filter the SELECT 
+statement, WHERE clause may be included to provide filter conditions and select 
+only the wished entries that satisfy the condition.
+
+2. INSERT allows to add or insert a row or multiple rows in a database table. 
+Accompanied by VALUES keyword lets you add a row with specific values. 
+INSERT may also be accompanied with SELECT to insert the preselected row.
+
+3. CREATE is a keyword used to create elements in SQL. It is usually accompanied 
+with the keyword to be created such as CREATE DATABASE, CREATE TABLE, CREATE VIEW, etc.
+
+4. DELETE keyword is used to deletes record(s) in a database. You should always use 
+it carefully to avoid unwanted data loss. You may delete records you didn’t want to 
+delete. Use WHERE clause to specify the range of the records you wish to delete.
+
+5. UPDATE keyword updates or changes the existing data within an existing record. 
+Be sure to note that the record must be existent.
+
+6. DROP keyword drops or deletes a table within the database.
+
+===============================================================================
+Q. 
