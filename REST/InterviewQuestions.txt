@@ -42,5 +42,126 @@ Ans: HTTPs method supported by rest are:
 
 ===================================================================================
 
+Q. Mention what are resources in a REST architecture?
+Ans: 
+There are two main building blocks of RESTful Web Services:
+1. Resource URIs
+2. HTTP Request Methods
 
+===================================================================================
 
+Q.  Mention what is the difference between AJAX and REST?
+Ans:
+AJAX:
+1. In Ajax, the request are sent to the server by using XMLHttpRequest objects. 
+The response is used by the JavaScript code to dynamically alter the current page
+2. Ajax is a set of technology; it is a technique of dynamically updating parts of UI 
+without having to reload the page
+3. Ajax eliminates the interaction between the customer and server asynchronously
+4. REST requires the interaction between the customer and server
+
+REST:
+1. REST have a URL structure and a request/response pattern the revolve around the use of resources
+2. REST is a type of software architecture and a method for users to request data or information from servers
+3. REST requires the interaction between the customer and server
+
+===================================================================================
+
+Q. Mention some key characteristics of REST?
+Ans: Some key characteristics of REST includes
+1. REST is stateless, therefore the SERVER has no state (or session data)
+2. With a well-applied REST API, the server could be restarted between two calls as every data is passed to the server
+3. Web service mostly uses POST method to make operations, whereas REST uses GET to access resources
+
+===================================================================================
+Q. Mention what are the different application integration styles?
+Ans: The different integration styles include
+1. Shared database
+2. Batch file transfer
+3. Invoking remote procedure (RPC)
+4. Swapping asynchronous messages over a message oriented middle-ware (MOM)
+===================================================================================
+
+Explain how JAXB related to RESTful web API?
+=========================================================
+Q. Mention what is the difference between PUT and POST?
+Ans: "PUT" puts a file or resource at a particular URI and exactly at that URI. 
+If there is already a file or resource at that URI, PUT changes that file or resource. 
+If there is no resource or file there, PUT makes one
+
+POST sends data to a particular URI and expects the resource at that URI to deal 
+with the request. The web server at this point can decide what to do with the 
+data in the context of specified resource
+
+PUT is idempotent meaning, invoking it any number of times will not have 
+an impact on resources.
+
+However, POST is not idempotent, meaning if you invoke POST multiple times 
+it keeps creating more resources
+
+===================================================================================
+
+Q.  Mention which markup language can be used in restful web api?
+Ans: 
+1. JSON
+2. XML
+3. Plain Text
+4. HTML
+
+===================================================================================
+
+Q. Mention what is JAX-WS and JAX-RS?
+Ans: Both JAX-WS and JAX-RS are libraries (APIs) for doing communication in various ways in Java. 
+JAX-WS is a library that can be used to do SOAP communication in JAVA, and 
+JAX-RS lets you do the REST communication in JAVA.
+
+===================================================================================
+
+Q. Mention what is the difference between SOAP and REST?
+Ans:
+SOAP:
+1. SOAP is a protocol through which two computer communicates by sharing XML document
+2. SOAP permits only XML
+3. SOAP based reads cannot be cached
+4. SOAP is like custom desktop application, closely connected to the server
+5. SOAP is slower than REST
+
+REST:
+1. It runs on HTTP but envelopes the message
+2. Rest is a service architecture and design for network-based software architectures
+3. REST supports many different data formats
+4. REST reads can be cached
+5. A REST client is more like a browser; it knows how to standardized methods 
+and an application has to fit inside it. REST is faster than SOAP
+6. It uses the HTTP headers to hold meta information
+
+===================================================================================
+
+Q. What is the Role of HTTP Request Methods in RESTful Web Services?
+Ans: HTTP Request Methods play very key role. They inform the server on “What to do with the Client Request”.
+
+===================================================================================
+
+Q. What is the Transport protocol used by RESTful Web Services?
+Ans:  HTTP/HTTPS
+
+===================================================================================
+
+Q. How or Why RESTful Web Services are more Reliable and Scalable?
+Ans: 
+1. because of the defined resources which are the same for every client, caching is made easier. 
+After the first request, subsequent requests are served from a memcached instance which 
+also scales well horizontally.
+2. A part of REST is indeed the URL part (it's the R in REST) but the S is more 
+important for scaling: state
+3. The server end of REST is stateless, which means that the server doesn't have 
+to store anything across requests. This means that there doesn't have to be (much) 
+communication between servers, making it horizontally scalable.
+4. Of course, there's a small bonus in the R (representational) in that a load
+balancer can easily route the request to the right server if you have nice URLs, 
+and GET could go to a slave while POSTs go to masters.
+5. One thing that REST allows that SOAP doesn't, and that some other answers 
+here address, is caching cacheable responses through an HTTP caching proxy or 
+at the client side. This may make a REST service somewhat more lightly loaded 
+than a SOAP service when a lot of operations' responses are cacheable. All 
+this means is that fewer requests end up in your service.
