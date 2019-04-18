@@ -1,4 +1,6 @@
+===================================================================================
 Q. What is REST? What is a RESTful Web Service?
+===================================================================================
 Ans: REST stands for Representational State Transfer. REST is an architectural 
 style, which is used to develop services using HTTP or HTTPS protocol.
 In REST, Java object state is converted into XML/JSON representation and transfered 
@@ -14,9 +16,10 @@ D -> Delete -> Delete
 Technology used for implementation of REST
 1. Jersey
 2. Spring implimentation of REST.
-===================================================================================
 
+===================================================================================
 Q. What is the architectural style for creating web API?
+===================================================================================
 Ans: The architechral style of creating web api are:
     -HTTP/HTTPS for client server communication
     -XML/JSON as formating language
@@ -24,33 +27,34 @@ Ans: The architechral style of creating web api are:
     -Sateless communication
     
 ===================================================================================
-
 Q. What tools are used for testing REST webservices?
+===================================================================================
 Ans: 1. SOAPUI 2. PostMan 3. Poster (firefox plugin)
 
 ===================================================================================
-
 Q. Mention what are the HTTP methods supported by REST?
+===================================================================================
 Ans: HTTPs method supported by rest are:
 1. POST: Its submits information to the server for processing. It should probably 
          returns the modified for new resource.
-2. GET: It request a resource at request URL. It should not contain a request body as it will be discarded.
+2. GET: It request a resource at request URL. It should not contain a request body 
+as it will be discarded.
 3. PUT: At the request URL, it update the request.
 4. DELETE: At request URL, it removes the reaource.
 5. OPTIONS: It indicates which techniques are supported.
 6. HEAD: About the request URl it returns meta information.
 
 ===================================================================================
-
 Q. Mention what are resources in a REST architecture?
+===================================================================================
 Ans: 
 There are two main building blocks of RESTful Web Services:
 1. Resource URIs
 2. HTTP Request Methods
 
 ===================================================================================
-
 Q.  Mention what is the difference between AJAX and REST?
+===================================================================================
 Ans:
 AJAX:
 1. In Ajax, the request are sent to the server by using XMLHttpRequest objects. 
@@ -61,47 +65,113 @@ without having to reload the page
 4. REST requires the interaction between the customer and server
 
 REST:
-1. REST have a URL structure and a request/response pattern the revolve around the use of resources
-2. REST is a type of software architecture and a method for users to request data or information from servers
+1. REST have a URL structure and a request/response pattern the revolve around the 
+use of resources
+2. REST is a type of software architecture and a method for users to request data 
+or information from servers
 3. REST requires the interaction between the customer and server
 
 ===================================================================================
-
 Q. Mention some key characteristics of REST?
+===================================================================================
 Ans: Some key characteristics of REST includes
 1. REST is stateless, therefore the SERVER has no state (or session data)
-2. With a well-applied REST API, the server could be restarted between two calls as every data is passed to the server
-3. Web service mostly uses POST method to make operations, whereas REST uses GET to access resources
+2. With a well-applied REST API, the server could be restarted between two calls as 
+every data is passed to the server
+3. Web service mostly uses POST method to make operations, whereas REST uses GET to 
+access resources
 
 ===================================================================================
 Q. Mention what are the different application integration styles?
+===================================================================================
 Ans: The different integration styles include
 1. Shared database
 2. Batch file transfer
 3. Invoking remote procedure (RPC)
 4. Swapping asynchronous messages over a message oriented middle-ware (MOM)
-===================================================================================
 
-Explain how JAXB related to RESTful web API?
-=========================================================
+===================================================================================
+Q. What is JAXB and JAXRS ? How are they related?
+===================================================================================
+Ans:
+
+How they are different?
+
+JAXB: The "Java Architecture for XML Binding" in the Java ecosystem is the primary 
+mechanism for turning XML data into objects which you can then interact with, and 
+vice versa. It's important to realise that it's an API and not an implementation, 
+so it mostly defines a set of annotations and simple classes / interfaces in the 
+javax.xml.bind package. To do anything useful with JAXB you need an implementation. 
+There's a reference implementation included in the Glassfish application server. 
+Most application servers will have some kind of implementation of JAXB.
+JAXB is XML-to-Java binding technology enabling transformations between 
+schema and Java objects and between XML instance documents and Java object instances. 
+
+JaxRs: Jax-Rs is different . This is set of specifications for handling requests . 
+Meaning that it says "GET("/foo") " means handle a get call with url /foo . It only 
+states that . How it is done ? Yes , that is called implementation of this spec . 
+There are number of implementations like restlet , resteasy , jersey , apache cxf 
+etc. 
+
+What is same: 
+JAXB and JAX-RS are both Java Community Process (JCP) standards with multiple 
+implementations.
+JAXB - Defines standardized metadata and runtime API for converting Java domain 
+objects to/from XML.
+JAX-RS - Defines standardized metadata and runtime API for the creation of RESTful 
+services. By default for the application/xml media type JAX-RS will use JAXB to 
+convert the objects to/from XML.
+Example
+a GET operation is performed the JAX-RS implementation will return a Customer. A 
+JAXB impl will be used to convert that instance of Customer to the XML that 
+the client will actually receive.
+
+===================================================================================
 Q. Mention what is the difference between PUT and POST?
-Ans: "PUT" puts a file or resource at a particular URI and exactly at that URI. 
-If there is already a file or resource at that URI, PUT changes that file or resource. 
-If there is no resource or file there, PUT makes one
+===================================================================================
+Ans: 
+PUT:
+=====
+1. RFC-2616 clearly mention that PUT method requests for the enclosed entity
+be stored under the supplied Request-URI. If the Request-URI refers to an 
+already existing resource – an update operation will happen, otherwise create 
+operation should happen if Request-URI is a valid resource URI (assuming 
+client is allowed to determine resource identifier).
+PUT /questions/{question-id}
 
-POST sends data to a particular URI and expects the resource at that URI to deal 
-with the request. The web server at this point can decide what to do with the 
-data in the context of specified resource
+2. PUT method is idempotent. So if you send retry a request multiple times, 
+that should be equivalent to single request modification.
 
-PUT is idempotent meaning, invoking it any number of times will not have 
-an impact on resources.
+3. Use PUT when you want to modify a singular resource which is already a 
+part of resources collection. PUT replaces the resource in its entirety. 
+Use PATCH if request updates part of the resource.
 
-However, POST is not idempotent, meaning if you invoke POST multiple times 
-it keeps creating more resources
+4. PUT is idempotent, so you can cache the response.
+
+5. Generally, in practice, always use PUT for UPDATE operations.
+
+POST:
+=====
+1. The POST method is used to request that the origin server accept the entity 
+enclosed in the request as a new subordinate of the resource identified by the 
+Request-URI in the Request-Line. It essentially means that POST request-URI 
+should be of a collection URI.
+POST /questions
+
+2. POST is NOT idempotent. So if you retry the request N times, you will end up 
+having N resources with N different URIs created on server.
+
+3. Use POST when you want to add a child resource under resources collection.
+
+4. Responses to this method are not cacheable, unless the response includes 
+appropriate Cache-Control or Expires header fields. However, the 303 (See Other) 
+response can be used to direct the user agent to retrieve a cacheable resource.
+
+5. Always use POST for CREATE operations.
 
 ===================================================================================
-
 Q.  Mention which markup language can be used in restful web api?
+===================================================================================
 Ans: 
 1. JSON
 2. XML
@@ -109,18 +179,20 @@ Ans:
 4. HTML
 
 ===================================================================================
-
 Q. Mention what is JAX-WS and JAX-RS?
-Ans: Both JAX-WS and JAX-RS are libraries (APIs) for doing communication in various ways in Java. 
+===================================================================================
+Ans: Both JAX-WS and JAX-RS are libraries (APIs) for doing communication in various
+ways in Java. 
 JAX-WS is a library that can be used to do SOAP communication in JAVA, and 
 JAX-RS lets you do the REST communication in JAVA.
 
 ===================================================================================
-
 Q. Mention what is the difference between SOAP and REST?
+===================================================================================
 Ans:
 SOAP:
-1. SOAP is a protocol through which two computer communicates by sharing XML document
+1. SOAP is a protocol through which two computer communicates by sharing XML 
+document
 2. SOAP permits only XML
 3. SOAP based reads cannot be cached
 4. SOAP is like custom desktop application, closely connected to the server
@@ -136,32 +208,291 @@ and an application has to fit inside it. REST is faster than SOAP
 6. It uses the HTTP headers to hold meta information
 
 ===================================================================================
-
 Q. What is the Role of HTTP Request Methods in RESTful Web Services?
-Ans: HTTP Request Methods play very key role. They inform the server on “What to do with the Client Request”.
+===================================================================================
+Ans: HTTP Request Methods play very key role. They inform the server on “What to do
+with the Client Request”.
 
 ===================================================================================
-
 Q. What is the Transport protocol used by RESTful Web Services?
+===================================================================================
 Ans:  HTTP/HTTPS
 
 ===================================================================================
-
 Q. How or Why RESTful Web Services are more Reliable and Scalable?
+===================================================================================
 Ans: 
-1. because of the defined resources which are the same for every client, caching is made easier. 
-After the first request, subsequent requests are served from a memcached instance which 
-also scales well horizontally.
+1. because of the defined resources which are the same for every client, caching is 
+made easier. After the first request, subsequent requests are served from a 
+memcached instance which also scales well horizontally.
+
 2. A part of REST is indeed the URL part (it's the R in REST) but the S is more 
 important for scaling: state
+
 3. The server end of REST is stateless, which means that the server doesn't have 
 to store anything across requests. This means that there doesn't have to be (much) 
 communication between servers, making it horizontally scalable.
+
 4. Of course, there's a small bonus in the R (representational) in that a load
 balancer can easily route the request to the right server if you have nice URLs, 
 and GET could go to a slave while POSTs go to masters.
+
 5. One thing that REST allows that SOAP doesn't, and that some other answers 
 here address, is caching cacheable responses through an HTTP caching proxy or 
 at the client side. This may make a REST service somewhat more lightly loaded 
 than a SOAP service when a lot of operations' responses are cacheable. All 
 this means is that fewer requests end up in your service.
+
+===================================================================================
+Q. Different terminology/packages used in REST?
+===================================================================================
+Ans: 
+
+1. XML - you know what XML is, right? The extensible markup language. It's what 
+we had before JSON became the big thing.
+
+2. JSON - oh, well, JSON is the new big thing. It's a human readable object 
+serialisation format, less verbose than XML. Very popular nowadays. 
+
+3. JAXB - the "Java Architecture for XML Binding" in the Java ecosystem is the 
+primary mechanism for turning XML data into objects which you can then interact with, 
+and vice versa. It's important to realise that it's an API and not an implementation, 
+so it mostly defines a set of annotations and simple classes / interfaces in the 
+javax.xml.bind package. To do anything useful with JAXB you need an implementation. 
+There's a reference implementation included in the Glassfish application server. 
+Most application servers will have some kind of implementation of JAXB.
+
+4. Jackson - a library for data binding. It supports both XML and JSON as document 
+formats, and implements the JAXB API. You can use Jackson as your implementation of 
+JAXB, or you can just use the Jackson API directly.
+
+5. EclipseLink Moxy - an alternative implementation of the JAXB API. Like Jackson, 
+it also has its own API. You can choose to use it, or not. You probably don't 
+want to use both Jackson and Moxy.
+
+6. Jersey-media-moxy - as you mentioned, Jersey is an implementation of JAX-RS. 
+One aspect of JAX-RS is passing documents around - often XML or JSON. To do that 
+Jersey needs to know what underlying library to use for data-binding or stream 
+processing. So jersey-media-moxy exists as a kind of jersey plugin dependency 
+which you can use to configure Jersey to use Moxy for your object serialisation 
+needs. There's an equivalent package for using jackson called jersey-media-json-jackson.
+
+7. Jettison - Yet Another serialisation library for converting Java objects to 
+Json and back.
+
+===================================================================================
+Q. In Which Scenarios Restful Web Services Are Preferred Over Soap Ones?
+===================================================================================
+Ans: RESTful Web Services are preferred when: 
+a) The Web Services are completely stateless. 
+b) When data can be cached to improve performance. 
+c) Schema of data can be agreed between service consumer and service provider. 
+d) Bandwidth is limited. 
+
+===================================================================================
+Q. How Do You Refer Or Identify Resources In Rest Design Idiom?
+===================================================================================
+Ans: 
+Resources are identified by their unique URLs.  
+
+===================================================================================
+Q. Name Few Of The Jax-rs Implementations?
+===================================================================================
+Ans: 
+Jersey, RESTEasy, Restlet are to name a few. 
+
+===================================================================================
+Q. If I Plan To Use The Jersey Distribution For Restful Web Services, Do I Need To 
+Download It?
+===================================================================================
+Ans: 
+Yes. But if you are using NetBeans IDE 6.0, downloading is not required. 
+
+===================================================================================
+Q. How Do You Annotate A Method To Respond To Http Get Requests?
+===================================================================================
+Ans: 
+javax.ws.rs.Get annotation specifies that the annotated method will serve HTTP Get 
+request. 
+
+===================================================================================
+Q. What Are Idempotent Methods?
+===================================================================================
+Ans: 
+A method is said to be idempotent if repeated calls to it does not cause duplicates. 
+
+===================================================================================
+Q. In Order To Answer Http Put Requests, How Will You Annotate Your Resource Methods?
+===================================================================================
+Ans: 
+The @PUT annotation is used to answer HTTP PUT requests. 
+
+===================================================================================
+Q. Define Root Resource Class?
+===================================================================================
+Ans: 
+Root resource class is basically a POJO (Plain Old JAVA Objects) that is annotated 
+with @Path and has at least one method annotated with @Path or have at least a single 
+resource method. 
+
+===================================================================================
+Q. Define Resource Method?
+===================================================================================
+Ans: 
+Method of a resource class that is annotated with resource method designator 
+annotation is called Resource Method. 
+
+===================================================================================
+Q. How To You Specify Relative Path Of A Resource In Restful Web Service?
+===================================================================================
+Ans: 
+The @Path annotation is used to specify relative URI path. 
+e.g. 
+@Path("/test") 
+
+===================================================================================
+Q. How Can You Embed Variables In The Uri?
+===================================================================================
+Ans: 
+Variables can be embedded within the URI syntax (called URI path template). 
+The variables are substituted at runtime. 
+@Path("/test/{username}")
+
+===================================================================================
+Q. How Embedded Variables Are Represented In The Uri Syntax?
+===================================================================================
+Ans:
+Embedded variables are denoted by curly braces.
+
+ 
+===================================================================================
+Q. How Can You Obtain The Value Of A Method Parameter In Restful Resource Method?
+===================================================================================
+Ans:
+@PathParam can be used on method parameter of a resource method to obtain the 
+value for a method parameter. 
+e.g. 
+@GET 
+@Produces("text/plain") 
+public String getWelcomeMsg(@PathParam("username") String userName) { 
+... 
+} 
+
+===================================================================================
+Q. How Can You Define A Regular Expression For A Variable Say Username?
+===================================================================================
+Answer :
+@Path("users/{username: [a-zA-Z][a-zA-Z_0-9]*}") 
+
+===================================================================================
+Q. What Happens If Regular Expression Of A Uri Embedded Variable Is Not Matched?
+===================================================================================
+Ans:
+A 404 (Not Found) response will occur. 
+
+===================================================================================
+Q. Will The Following Direct To The Same Resource? @path("/test/")  @path("/test") 
+===================================================================================
+Ans:
+Yes. By default, both should point to the same resource, although Jersey has 
+arection mechanism that is disabled by default. 
+
+===================================================================================
+Q. Explain How To Specify Mime Media Types Of A Resource That Is Sent Back To 
+The Client?
+===================================================================================
+Ans:
+@Produces annotation is used for this purpose..
+ e.g. 
+@Produces("text/plain") 
+
+===================================================================================
+Q. Is It True That @produces Can Only Be Applied At Method Level?
+===================================================================================
+Ans:
+False. It can be applied at both the class and method levels. 
+
+===================================================================================
+Q. Can @produces Annotation Be Overridden In A Restless Resource? Give Example?
+===================================================================================
+Ans:
+Yes. In the following example, the default MIME type is set as text/plain but 
+doGetAsHtml method overrides it to text/html. 
+@Path("/testResource") 
+@Produces("text/plain") 
+public class TestResource { 
+    @GET 
+    public String doGetAsPlainText() { 
+        ... 
+    } 
+ 
+    @GET 
+    @Produces("text/html") 
+    public String doGetAsHtml() { 
+        ... 
+    } 
+} 
+
+===================================================================================
+Q. How Can You Declare More Than One Media Type In The Same @produces Declaration?
+===================================================================================
+Answer :
+@Produces({"application/plain","application/xml", "application/json"}) 
+
+===================================================================================
+Q. Assume That There Is A Resource Class Capable Of Producing More Than One Mime 
+Media Type For Get. How Will Be The Response Method Chosen?
+===================================================================================
+Ans:
+Resource method is chosen depending on the most acceptable media type as declared 
+by the client in the request header. 
+e.g. 
+Accept: text/plain. 
+
+===================================================================================
+Q. How Will You Specify The Mime Media Types Of Representations A Restful 
+Resource Can Use?
+===================================================================================
+Ans:
+@Consumes annotation is to be used. 
+
+===================================================================================
+Q. Write A Method That Is Triggered On Post Request And Takes Text/plain As Input?
+===================================================================================
+Ans:
+
+@POST 
+@Consumes("text/plain") 
+public void postMessage(String message) { 
+    ... 
+} 
+
+===================================================================================
+Q. At Which Levels, @consumes Can Be Applied?
+===================================================================================
+Ans:
+@Consumes can be applied at both the class and method levels. 
+
+===================================================================================
+Q. Give An Example Of Declaring More Than One Media Type In @consumes Declaration?
+===================================================================================
+Answer :
+
+@POST 
+@Consumes({"application/plain","application/xml"}) 
+public void postMessage(String message) { 
+... 
+} 
+
+===================================================================================
+Q. Can Restful Web Services Support Multiple Types Of Response (mime) Formats?
+===================================================================================
+Answer :
+RESTful Web Services, by confirming to HTTP, does support multiple types of 
+response (MIME) formats e.g. XML, JSON, PLAIN etc.
+
+===================================================================================
+Q. What is URI stands for?
+===================================================================================
+Ans: 
+Uniform Resource Identifier
