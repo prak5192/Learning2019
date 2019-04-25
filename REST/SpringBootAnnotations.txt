@@ -1,6 +1,176 @@
 ===============================================================================
 @Configuration
-===============================================================================
+Ans: https://www.journaldev.com/21033/spring-configuration-annotation
+
+Spring @Configuration annotation is part of the spring core framework. Spring 
+Configuration annotation indicates that the class has @Bean definition methods. 
+So Spring container can process the class and generate Spring Beans to be used 
+in the application.
+
+Spring @Configuration
+Spring @Configuration annotation allows us to use annotations for dependency 
+injection. Let’s understand how to create Spring Configuration classes.
+
+Let’s create a simple java bean class.
+
+    package com.journaldev.spring;
+    public class MyBean {
+        public MyBean() {
+            System.out.println("MyBean instance created");
+        }
+    }
+
+Before we use any of the Spring framework classes, we will have to add it’s 
+dependencies to the maven project.
+
+<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>5.0.6.RELEASE</version>
+</dependency>
+
+Now let’s create the Spring Configuration class.
+
+    package com.journaldev.spring;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+
+    @Configuration
+    public class MyConfiguration {
+        @Bean
+        public MyBean myBean() {
+            return new MyBean();
+        }
+    }
+
+Let’s write a simple class and configure our simple Spring configuration class.
+
+    package com.journaldev.spring;
+    import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+    public class MySpringApp {
+        public static void main(String[] args) {
+            AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+            ctx.register(MyConfiguration.class);
+            ctx.refresh();
+            // MyBean mb1 = ctx.getBean(MyBean.class);
+            // MyBean mb2 = ctx.getBean(MyBean.class);
+            ctx.close();
+        }
+    }
+
+If you run above application, it will produce output like this:
+
+
+May 23, 2018 12:34:54 PM org.springframework.context.support.AbstractApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@ff5b51f: 
+startup date [Wed May 23 12:34:54 IST 2018]; root of context hierarchy
+MyBean instance created
+May 23, 2018 12:34:54 PM org.springframework.context.support.AbstractApplicationContext doClose
+INFO: Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@ff5b51f: 
+startup date [Wed May 23 12:34:54 IST 2018]; root of context hierarchy
+
+
+Notice that Spring loads beans into it’s context before we have even requested
+it. This is to make sure all the beans are properly configured and application 
+fail-fast if something goes wrong.
+Also ctx.refresh() must be called, otherwise we will get following error when 
+we will try to get any bean from the context.
+
+
+Exception in thread "main" java.lang.IllegalStateException: 
+org.springframework.context.annotation.AnnotationConfigApplicationContext@f0f2775 has not been refreshed yet
+	at org.springframework.context.support.AbstractApplicationContext.assertBeanFactoryActive(AbstractApplicationContext.java:1076)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1106)
+	at com.journaldev.spring.MySpringApp.main(MySpringApp.java:11)
+
+If you uncomment the statements where I am getting MyBean instances, you will
+notice that it’s not calling the constructor of MyBean. It’s because the 
+default scope of spring beans is Singleton. We can change it using @Scope 
+annotation.
+
+What if we remove @Configuration annotation?
+
+What will happen if we remove the @Configuration annotation from 
+MyConfiguration class. You will notice that it still works as expected and 
+spring beans are registered and retrieved as singleton classes. But in 
+this case, if we make a call to myBean() method then it will be a plain 
+java method call and we will get a new instance of MyBean and it won’t 
+remain singleton. To prove this point, let’s define another bean that will
+be using MyBean instance.
+
+    package com.journaldev.spring;
+    public class MyBeanConsumer {
+        public MyBeanConsumer(MyBean myBean) {
+            System.out.println("MyBeanConsumer created");
+            System.out.println("myBean hashcode = "+myBean.hashCode());
+        }
+    }
+
+Our updated Spring Configuration class is:
+
+    package com.journaldev.spring;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+
+    //@Configuration
+    public class MyConfiguration {
+
+        @Bean
+        public MyBean myBean() {
+            return new MyBean();
+        }
+        
+        @Bean
+        public MyBeanConsumer myBeanConsumer() {
+            return new MyBeanConsumer(myBean());
+        }
+    }
+
+Now when we run the MySpringApp class, it generates following output.
+
+MyBean instance created
+MyBean instance created
+MyBeanConsumer created
+myBean hashcode = 1647766367
+
+
+So MyBean is not singleton anymore, now let’s annotate MyConfiguration with 
+@Configuration annotation again and run the MySpringApp class. This time 
+output will be like below.
+
+
+MyBean instance created
+MyBeanConsumer created
+myBean hashcode = 1095088856
+
+So it’s better to use @Configuration annotation with configuration classes 
+to make sure our spring container is behaving like the way we want it to.
+If you don’t want to use @Configuration annotation for some weird reasons, 
+we can still create our configuration class by not calling the myBean() 
+method and rather using an instance variable of MyBean configured through 
+@Autowired annotation. Something like below code will work as well.
+
+    package com.journaldev.spring;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+
+    //@Configuration
+    public class MyConfiguration {
+        @Autowired
+        MyBean myBean;
+        @Bean
+        public MyBean myBean() {
+            return new MyBean();
+        }
+        @Bean
+        public MyBeanConsumer myBeanConsumer() {
+            return new MyBeanConsumer(myBean);
+        }
+    }
+
+That’s all for Spring Configuration annotation, we will look into other spring 
+annotations in future posts.
 
 
 ===============================================================================
