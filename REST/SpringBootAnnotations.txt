@@ -1,3 +1,343 @@
+
+Good Link for almost all the useful annotations in spring
+=========================================================
+https://springframework.guru/spring-framework-annotations/
+
+===============================================================================
+@ComponentScan : 
+Ans: https://dzone.com/articles/spring-component-scan
+
+We will start by writing few components.
+
+DemoBeanA.java:
+---------------
+    package guru.springframework.blog.componentscan.example.demopackageA;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanA")
+    public class DemoBeanA {
+    }
+
+
+DemoBeanB1.java:
+----------------
+    package guru.springframework.blog.componentscan.example.demopackageB;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanB1")
+    public class DemoBeanB1 {
+    }
+
+
+DemoBeanB2.java:
+---------------
+    package guru.springframework.blog.componentscan.example.demopackageB;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanB2")
+    public class DemoBeanB2 extends DemoBeanB1{
+    }
+
+
+DemoBeanB3.java:
+------------------
+    package guru.springframework.blog.componentscan.example.demopackageB;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanB3")
+    public class DemoBeanB3 extends DemoBeanB2{
+    }
+
+
+DemoBeanC.java:
+---------------
+    package guru.springframework.blog.componentscan.example.demopackageC;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanC")
+    public class DemoBeanC {
+    }
+
+
+DemoBeanD.java:
+---------------
+    package guru.springframework.blog.componentscan.example.demopackageD;
+    import org.springframework.stereotype.Component;
+    @Component("demoBeanD")
+    public class DemoBeanD {
+    }
+
+
+The @SpringBootApplication Annotation
+--------------------------------------
+Spring needs to know which packages to scan for annotated components in order 
+to add them to the IoC container. In a Spring Boot project, we typically set 
+the main application class with the @SpringBootApplication annotation. Under 
+the hood, @SpringBootApplication is a composition of the @Configuration, 
+@ComponentScan, and @EnableAutoConfiguration annotations. With this default 
+setting, Spring Boot will auto scan for components in the current package 
+(containing the @SpringBoot main class) and its sub packages.
+
+Note: It is recommended that you locate your main application class in a root 
+package above the component classes of the application.
+
+The code to create the main class and access components is:
+
+BlogPostsApplication.java
+--------------------------
+package guru.springframework.blog;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+@SpringBootApplication
+public class BlogPostsApplication {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.run(BlogPostsApplication.class,args);
+            System.out.println("Contains A  "+context.
+                    containsBeanDefinition("demoBeanA"));
+            System.out.println("Contains B2  " + context.
+                    containsBeanDefinition("demoBeanB2"));
+            System.out.println("Contains C   " + context.
+                    containsBeanDefinition("demoBeanC"));
+    }
+}
+
+
+After running the main class all the classes in the subpackages of the main 
+class BlogPostsApplication are auto scanned by Spring.
+
+@ComponentScan: Identifying Base Packages
+The @ComponentScan annotation is used with the @Configuration annotation to 
+tell Spring the packages to scan for annotated components. @ComponentScan 
+also used to specify base packages and base package classes using 
+thebasePackageClasses or basePackages attributes of @ComponentScan.
+
+The basePackageClasses attribute is a type-safe alternative to basePackages. 
+When you specify basePackageClasses, Spring will scan the package 
+(and subpackages) of the classes you specify. 
+
+A Java class annotated with @ComponentScan with the basePackageClassesattribute is:
+
+BlogPostsApplicationWithComponentScan.java:
+----------------------------------------------
+package guru.springframework.blog;
+import guru.springframework.blog.componentscan.example.demopackageB.DemoBeanB1;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = {
+        "guru.springframework.blog.componentscan.example.demopackageA",
+        "guru.springframework.blog.componentscan.example.demopackageD",
+        "guru.springframework.blog.componentscan.example.demopackageE"
+    },
+    basePackageClasses = DemoBeanB1.class)
+public class BlogPostsApplicationWithComponentScan {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.
+        run(BlogPostsApplicationWithComponentScan.class, args);
+        System.out.println("Contains A  " + context.containsBeanDefinition("demoBeanA"));
+        System.out.println("Contains B2  " + context.containsBeanDefinition("demoBeanB2"));
+        System.out.println("Contains C   " + context.containsBeanDefinition("demoBeanC"));
+        System.out.println("Contains D   " + context.containsBeanDefinition("demoBeanD"));
+    }
+}
+
+
+The output of running the main class is:
+Output of BlogPostsApplicationWithComponentScan.java Class
+
+The @ComponentScan annotation uses the basePackages attribute to specify three 
+packages (and subpackages) that will be scanned by Spring. The annotation also 
+uses the basePackageClasses attribute to declare the DemoBeanB1 class whose 
+package Spring Boot should scan.
+
+As demoBeanC is in a different package, Spring did not find it during component 
+scanning.
+
+Component Scanning Filters
+You can configure component scanning by using different type filters that Spring 
+provides.
+
+By using filters, you can further narrow the set of candidate components from 
+everything in basePackages to everything in the base packages that matches the 
+given filter or filters.
+
+Filters can be of two types: include and exclude filters. As their names suggest, 
+include filters specify which types are eligible for component scanning, while 
+exclude filters specify which types are not.
+
+You can use the include and/or exclude filters with or without the default filter. 
+To disable the default filter, set the useDefaultFilters element of the 
+@ComponentScan annotation to false.
+
+The code to disable the default filter is:
+
+BlogPostsApplicationDisablingDefaultFilters.java:
+
+package guru.springframework.blog;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+@Configuration
+@ComponentScan(value = "guru.springframework.blog.componentscan.example.demopackageA",
+        useDefaultFilters = false)
+public class BlogPostsApplicationDisablingDefaultFilters {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.
+                run(BlogPostsApplicationDisablingDefaultFilters.class,args);
+            System.out.println("Contains A  " + context.containsBean("demoBeanA"));
+    }
+}
+
+
+In the preceding code, the value member defines the specific 
+guru.springframework.blog.componentscan.example.demopackageA package to scan, while 
+the useDefaultFilters member disables the default filter.
+
+The output of running the main class is:
+Output of BlogPostsApplicationDisablingDefaultFilters.java Class
+
+As you can see, the class DemoBeanA in the package demopackageA is unavailable when 
+the useDefaultFilters element of the @ComponentScan annotation is set to false.
+
+Component Scanning Filter Types
+
+Spring provides the FilterType enumeration for the type filters that may 
+be used in conjunction with @ComponentScan.
+
+The available FilterType values are:
+
+1. FilterType.ANNOTATION: Include or exclude those classes with a stereotype annotation
+2. FilterType.ASPECTJ: Include or exclude classes using an AspectJ type pattern expression
+3. FilterType.ASSIGNABLE_TYPE: Include or exclude classes that extend or implement this class or interface
+4. FilterType.REGEX: Include or exclude classes using a regular expression
+5. FilterType.CUSTOM: Include or exclude classes using a custom implementation of the org.springframework.core.type.TypeFilter interface
+
+Include Filters
+----------------
+With include filters, you can include certain classes to be scanned by Spring. 
+To include assignable type, use the includeFilters element of the @ComponentScan 
+annotation with FilterType.ASSIGNABLE_TYPE. Using this filter, you can instruct 
+Spring to scan for classes that extends or implements the class or interface you specify.
+
+The code to use the includeFilters element of @ComponentScan is:
+
+BlogPostsApplicationIncludeFilter.java:
+
+package guru.springframework.blog;
+import guru.springframework.blog.componentscan.example.demopackageB.DemoBeanB2;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+@Configuration
+@ComponentScan(basePackages = {"guru.springframework.blog.componentscan.example.demopackageA",
+        "guru.springframework.blog.componentscan.example.demopackageB"},
+        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DemoBeanB2.class),
+        useDefaultFilters = false)
+public class BlogPostsApplicationIncludeFilter {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.
+                run(BlogPostsApplicationIncludeFilter.class,args);
+            System.out.println("Contains A  " + context.containsBean("demoBeanA"));
+            System.out.println("Contains B1  " + context.containsBean("demoBeanB1"));
+            System.out.println("Contains B2  " + context.containsBean("demoBeanB2"));
+            System.out.println("Contains B3  " + context.containsBean("demoBeanB3"));
+    }
+}
+
+
+The output of running the main class is:
+Output of BlogPostsApplicationIncludeFilter.java Class
+
+As shown in the preceding figure, Spring detected and used the demoBean3 
+component that extends demoBean2.
+
+Include Filters Using Regex
+You can use regular expressions to filter out components to be scanned by 
+Spring. Use the includeFiltersnested annotation @ComponentScan.Filter type 
+FilterType.REGEXto set a pattern.
+
+The code to use an exclude filter based on regular expression is:
+
+BlogPostsApplicationFilterTypeRegex.java:
+
+package guru.springframework.blog;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+@Configuration
+@ComponentScan(useDefaultFilters = false, includeFilters = @ComponentScan.Filter
+        (type = FilterType.REGEX, pattern = ".*[A2]"))
+public class BlogPostsApplicationFilterTypeRegex {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.
+                run(BlogPostsApplicationFilterTypeRegex.class,args);
+            System.out.println("Contains A  " + context.containsBean("demoBeanA"));
+            System.out.println("Contains B1  " + context.containsBean("demoBeanB1"));
+            System.out.println("Contains B2  " + context.containsBean("demoBeanB2"));
+    }
+}
+
+
+The output of the following code snippet is:
+Output of BlogPostsApplicationFilterTypeRegex.java Class
+As shown in the preceding figure, the classes whose names end with A or 2 
+are detected by Spring.
+
+Exclude Filters
+The @ComponentScan annotation enables you to exclude those classes that you 
+do not want to scan.
+
+The code to use an exclude filter is:
+
+BlogPostsApplicationExcludeFilter.java:
+
+package guru.springframework.blog;
+import guru.springframework.blog.componentscan.example.demopackageB.DemoBeanB1;
+import guru.springframework.blog.componentscan.example.demopackageB.DemoBeanB2;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+@Configuration
+@ComponentScan(basePackageClasses = {DemoBeanB1.class},
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                value = DemoBeanB2.class))
+public class BlogPostsApplicationExcludeFilter {
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.
+                run(BlogPostsApplicationExcludeFilter.class,args);
+            System.out.println("Contains B1  " + context.containsBean("demoBeanB1"));
+            System.out.println("Contains B2  " + context.containsBean("demoBeanB2"));
+    }
+}
+
+
+In this code, the nested annotation @ComponentScan.Filter is used to specify 
+the filter type as FilterType.ASSIGNABLE_TYPE and the base class that should 
+be excluded from scanning.
+The class DemoBeanB2 has been excluded from being scanned.
+
+
+===============================================================================
+@EntityScan
+
+
+
+===============================================================================
+@Bean
+Ans:
+In Spring, the objects that form the backbone of your application and that 
+are managed by the Spring IoC container are called beans. A bean is an object 
+that is instantiated, assembled, and otherwise managed by a Spring IoC 
+container.
+
+
 ===============================================================================
 @Configuration
 Ans: https://www.journaldev.com/21033/spring-configuration-annotation
@@ -179,6 +519,3 @@ annotations in future posts.
 
 
 
-===============================================================================
-@ComponentScan
-===============================================================================
