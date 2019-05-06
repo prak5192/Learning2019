@@ -1,0 +1,12 @@
+CREATE TABLE public.alien
+(
+  id integer NOT NULL,
+  name character(50) NOT NULL,
+  points integer NOT NULL,
+  CONSTRAINT alien_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.alien
+  OWNER TO postgres;
