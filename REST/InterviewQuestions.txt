@@ -496,3 +496,16 @@ Q. What is URI stands for?
 ===================================================================================
 Ans: 
 Uniform Resource Identifier
+
+===================================================================================
+Q. What is Difference between @PathParam and @PathVariable?
+===================================================================================
+Ans:
+Similarties:
+============
+	@PathVariable and @PathParam both are used for accessing parameters from URI Template
+Differences:
+============
+	1. @PathVariable is from spring and @PathParam is from JAX-RS.
+	2. @PathParam can use with REST only, where @PathVariable used in Spring so it works 
+	   in MVC and REST.
