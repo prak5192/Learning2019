@@ -9,6 +9,10 @@ public class LinkListBasicOperation {
 	{
 		int length = 0;
 		ListNode currentNode = headNode;
+		if(currentNode == null)
+		{
+			return 0;
+		}
 		while(currentNode != null)
 		{
 			length++;
@@ -112,25 +116,51 @@ public class LinkListBasicOperation {
 	
 	/*
 	 * Remove the node from a given position
+	 * 1. If position is less than 0, return headNode.
+	 * 2. If position is == 0, delete the begininng node.
+	 * 3. if position is >= length of linked list -1, delete the last node. 
 	 */
 	
 	public ListNode deleteAtPosition(ListNode headNode, int position)
 	{
-		if(position <= 0)
-		{
-			return null;
-		}
-		
 		if(headNode == null)
 		{
 			return null;
 		}
 		
-		ListNode current = headNode;
-		
-		while(current != null)
+		if(position < 0)
 		{
-			
+			return headNode;
+		}else if(position == 0)
+		{
+			return deleteFromBegin(headNode);
+		}else {
+			int length = listLength(headNode);
+			if(position >= length - 1)
+			{
+				return deleteFromEnd(headNode);
+			}else
+			{
+				ListNode current = headNode;
+				ListNode prev=current;
+				current = current.getNext()
+				
+				while(current != null)
+				{
+					prev = current;
+					current = current.getNext();
+					position = position - 1;
+					if(position == 0)
+					{
+						break;
+					}
+				}
+				if(position == 0)
+				{
+					prev.setNext(current.getNext());
+				}
+				return headNode;
+			}
 		}
 		
 		
