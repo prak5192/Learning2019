@@ -41,6 +41,8 @@ public class DeleteAllKeyOccurane
 			return head;
 		}
 		head.next = deleteAllOccurances(head.next,x);
+		display(head);
+		System.out.println("");
 		return head.data == x ? head.next:head;
 	}
 }
